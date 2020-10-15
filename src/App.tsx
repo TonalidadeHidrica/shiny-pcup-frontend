@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import { TopHistory } from "./TopHistory";
+import { characters } from "./characters";
+
+class RootPage extends React.Component {
+  render() {
+    return (
+      <div>
+        お疲れさまです、プロデューサーさん！
+        <ul>
+          {Object.entries(characters).map(([id, name]) => (
+            <li key={id}>
+              <a href={`/40005/topHistory/${id}`}>{name}のトップ10推移</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route
+          path="/:eventId/topHistory/:characterId"
+          component={TopHistory}
+        />
+        <Route component={RootPage} />
+      </Switch>
+    </Router>
   );
 }
 
