@@ -2,10 +2,22 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { TopHistory } from "./TopHistory";
+import { characters } from "./characters";
 
 class RootPage extends React.Component {
   render() {
-    return <div>お疲れさまです、プロデューサーさん！</div>;
+    return (
+      <div>
+        お疲れさまです、プロデューサーさん！
+        <ul>
+          {Object.entries(characters).map(([id, name]) => (
+            <li key={id}>
+              <a href={`/40005/topHistory/${id}`}>{name}のトップ10推移</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 }
 

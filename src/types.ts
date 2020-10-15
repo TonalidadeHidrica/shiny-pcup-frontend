@@ -13,3 +13,27 @@ export interface RetrieveDateEntry {
   retrieveStart: Date;
   retrieveEnd: Date;
 }
+
+export interface TopHistoryEntryApi {
+  id: number;
+  retrieve_end: string;
+  entries: TopHistoryRankEntryApi[];
+}
+
+export interface TopHistoryRankEntryApi {
+  rank: number;
+  nickname: string;
+  score: number;
+}
+
+export interface TopHistoryEntry {
+  id: number;
+  retrieveEnd: Date;
+  entries: TopHistoryRankEntry[];
+}
+
+export interface TopHistoryRankEntry {
+  rank: number;
+  nickname: string;
+  score: number;
+}

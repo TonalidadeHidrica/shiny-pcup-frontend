@@ -1,9 +1,12 @@
-import { RetrieveDateEntry, RetrieveDateEntryApi } from "./types";
+import { TopHistoryEntry, TopHistoryEntryApi } from "./types";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
+import dateFormat from "dateformat";
+import "./TopHistory.css";
+import { characters } from "./characters";
 
 interface TopHistoryState {
-  lastRetrieve: null | RetrieveDateEntry;
+  topHistory: null | TopHistoryEntry[];
 }
 
 export class TopHistory extends React.Component<
@@ -13,17 +16,46 @@ export class TopHistory extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = {
-      lastRetrieve: null,
+      topHistory: null,
     };
   }
 
   render() {
-    if (this.state.lastRetrieve === null) {
+    if (this.state.topHistory === null) {
       return <div>お疲れさまです、プロデューサーさん！ </div>;
     } else {
+      // <span>e.nickname</span>
+      // <span>e.score</span>
+      const { characterId } = this.props.match.params;
       return (
         <div>
-          最終更新日時：{this.state.lastRetrieve.retrieveEnd.toString()}
+          <h3>{characters[characterId]}のトップ10の推移</h3>
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>日時</th>
+                  {[...Array(10)].map((e, i) => (
+                    <th key={i}>{i + 1}位</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.topHistory.map((entry) => (
+                  <tr key={entry.id}>
+                    <td>{dateFormat(entry.retrieveEnd, "dd日 HH:MM:ss")}</td>
+                    {entry.entries.map((e) => (
+                      <td key={e.rank}>
+                        <span className={"nickname-span"}>{e.nickname}</span>
+                        {/*<br />*/}
+                        <span className={"score-span"}>{e.score}</span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     }
@@ -32,17 +64,15 @@ export class TopHistory extends React.Component<
   async componentDidMount() {
     const { eventId, characterId } = this.props.match.params;
     const response = await fetch(
-      `https://kl8xmr7hlb.execute-api.ap-northeast-1.amazonaws.com/dev/v1/${eventId}/getLatestRetrieveId/${characterId}`
+      `https://kl8xmr7hlb.execute-api.ap-northeast-1.amazonaws.com/dev/v1/${eventId}/getHistoryByRank/${characterId}/1/10`
     );
-    const json: RetrieveDateEntryApi = await response.json();
+    const json: TopHistoryEntryApi[] = await response.json();
     this.setState({
-      lastRetrieve: {
-        id: json.id,
-        eventId: json.event_id,
-        characterId: json.character_id,
-        retrieveStart: new Date(json.retrieve_start),
-        retrieveEnd: new Date(json.retrieve_end),
-      },
+      topHistory: json.map((e) => ({
+        id: e.id,
+        retrieveEnd: new Date(e.retrieve_end),
+        entries: e.entries,
+      })),
     });
   }
 }

@@ -1,0 +1,42 @@
+div.table-wrapper {
+    height: 80vh;
+}
+
+table {
+    display: block;
+    overflow: scroll;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+}
+
+.nickname-span {
+    width: 90px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background: lightsalmon;
+    border: darkgray 1px solid;
+    border-bottom-width: 3px;
+}
+
+td {
+    border: darkgray 1px solid;
+    background: azure;
+}
+
+td:first-child, th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    border-right-width: 3px;
+}
+
+th:first-child {
+    z-index: 2;
+}
