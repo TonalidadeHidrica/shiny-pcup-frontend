@@ -1,12 +1,18 @@
-import { TopHistoryEntry, TopHistoryEntryApi } from "./types";
+import {
+  TopHistoryEntry,
+  TopHistoryEntryApi,
+  TopHistoryRankEntry,
+} from "./types";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import dateFormat from "dateformat";
 import "./TopHistory.css";
 import { characters } from "./characters";
+import { apiEndpoint } from "./common";
+import { FormattedDate } from "./CommonComponents";
 
 interface TopHistoryState {
   topHistory: null | TopHistoryEntry[];
+  hoveredUser: null | string;
 }
 
 export class TopHistory extends React.Component<
@@ -17,6 +23,7 @@ export class TopHistory extends React.Component<
     super(props);
     this.state = {
       topHistory: null,
+      hoveredUser: null,
     };
   }
 
@@ -26,7 +33,7 @@ export class TopHistory extends React.Component<
     } else {
       // <span>e.nickname</span>
       // <span>e.score</span>
-      const { characterId } = this.props.match.params;
+      const { eventId, characterId } = this.props.match.params;
       return (
         <div>
           <h3>{characters[characterId]}のトップ10の推移</h3>
@@ -43,10 +50,27 @@ export class TopHistory extends React.Component<
               <tbody>
                 {this.state.topHistory.map((entry) => (
                   <tr key={entry.id}>
-                    <td>{dateFormat(entry.retrieveEnd, "dd日 HH:MM:ss")}</td>
+                    <td>
+                      <FormattedDate date={entry.retrieveEnd} />
+                    </td>
                     {entry.entries.map((e) => (
-                      <td key={e.rank}>
-                        <span className={"nickname-span"}>{e.nickname}</span>
+                      <td
+                        key={e.rank}
+                        className={
+                          e.earthUserId === this.state.hoveredUser
+                            ? "hovered-td"
+                            : ""
+                        }
+                        onMouseOver={this.handleTdHover.bind(this, e, true)}
+                        onMouseOut={this.handleTdHover.bind(this, e, false)}
+                      >
+                        <span className={"nickname-span"}>
+                          {/*<a*/}
+                          {/*  href={`/${eventId}/userHistory/${e.earthUserId}/${characterId}`}*/}
+                          {/*>*/}
+                          {e.nickname}
+                          {/*</a>*/}
+                        </span>
                         {/*<br />*/}
                         <span className={"score-span"}>{e.score}</span>
                       </td>
@@ -61,17 +85,25 @@ export class TopHistory extends React.Component<
     }
   }
 
+  handleTdHover(entry: TopHistoryRankEntry, entered: boolean) {
+    const hoveredUser = entered ? entry.earthUserId : null;
+    this.setState({ hoveredUser });
+  }
+
   async componentDidMount() {
     const { eventId, characterId } = this.props.match.params;
     const response = await fetch(
-      `https://kl8xmr7hlb.execute-api.ap-northeast-1.amazonaws.com/dev/v1/${eventId}/getHistoryByRank/${characterId}/1/10`
+      `${apiEndpoint}/v1/${eventId}/getHistoryByRank/${characterId}/1/10`
     );
     const json: TopHistoryEntryApi[] = await response.json();
     this.setState({
       topHistory: json.map((e) => ({
         id: e.id,
         retrieveEnd: new Date(e.retrieve_end),
-        entries: e.entries,
+        entries: e.entries.map((e) => ({
+          ...e,
+          earthUserId: e.earth_user_id,
+        })),
       })),
     });
   }
