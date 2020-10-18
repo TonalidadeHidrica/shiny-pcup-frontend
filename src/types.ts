@@ -21,6 +21,7 @@ export interface TopHistoryEntryApi {
 }
 
 export interface TopHistoryRankEntryApi {
+  earth_user_id: string;
   rank: number;
   nickname: string;
   score: number;
@@ -33,6 +34,7 @@ export interface TopHistoryEntry {
 }
 
 export interface TopHistoryRankEntry {
+  earthUserId: string;
   rank: number;
   nickname: string;
   score: number;

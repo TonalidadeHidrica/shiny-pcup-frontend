@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { TopHistory } from "./TopHistory";
 import { characters } from "./characters";
+import { UserHistoryRoot } from "./UserHistory";
 
 class RootPage extends React.Component {
   render() {
@@ -25,6 +26,10 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route
+          path="/:eventId/userHistory/:earthUserId/:characterId"
+          component={UserHistoryRoot}
+        />
         <Route
           path="/:eventId/topHistory/:characterId"
           component={TopHistory}
