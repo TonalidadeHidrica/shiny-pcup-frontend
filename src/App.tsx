@@ -2,20 +2,17 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { TopHistory } from "./TopHistory";
-import { characters } from "./characters";
 import { UserHistoryRoot } from "./UserHistory";
+import { EventTop } from "./EventTop";
 
 class RootPage extends React.Component {
   render() {
     return (
       <div>
-        お疲れさまです、プロデューサーさん！
         <ul>
-          {Object.entries(characters).map(([id, name]) => (
-            <li key={id}>
-              <a href={`/40005/topHistory/${id}`}>{name}のトップ10推移</a>
-            </li>
-          ))}
+          <li>
+            <a href={"/40006/"}>3周年Pカップ</a>
+          </li>
         </ul>
       </div>
     );
@@ -34,6 +31,7 @@ function App() {
           path="/:eventId/topHistory/:characterId"
           component={TopHistory}
         />
+        <Route path="/:eventId/" component={EventTop} />
         <Route component={RootPage} />
       </Switch>
     </Router>
