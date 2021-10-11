@@ -11,7 +11,11 @@ class RootPage extends React.Component {
       <div>
         <ul>
           <li>
-            <a href={"/40006/"}>3周年Pカップ</a>
+            2.5周年Pカップ(どっかにデータは残ってると思うんですが今は復元してません)
+          </li>
+          <li>3周年Pカップ(どっかにデーry)</li>
+          <li>
+            <a href="/40007/">3.5周年Pカップ</a>
           </li>
         </ul>
       </div>
