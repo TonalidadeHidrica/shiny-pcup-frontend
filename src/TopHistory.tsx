@@ -37,6 +37,7 @@ export class TopHistory extends React.Component<
       return (
         <div>
           <h3>{characters[characterId]}のトップ10の推移</h3>
+          <p><em>新機能</em>：ユーザー名をクリックするとその人の過去の履歴が見られるようになりました。</p>
           <div className="table-wrapper">
             <table>
               <thead>
@@ -65,11 +66,11 @@ export class TopHistory extends React.Component<
                         onMouseOut={this.handleTdHover.bind(this, e, false)}
                       >
                         <span className={"nickname-span"}>
-                          {/*<a*/}
-                          {/*  href={`/${eventId}/userHistory/${e.earthUserId}/${characterId}`}*/}
-                          {/*>*/}
-                          {e.nickname}
-                          {/*</a>*/}
+                          <a
+                            href={`/${eventId}/userHistory/${e.earthUserId}/${characterId}`}
+                          >
+                            {e.nickname}
+                          </a>
                         </span>
                         {/*<br />*/}
                         <span className={"score-span"}>{e.score}</span>
