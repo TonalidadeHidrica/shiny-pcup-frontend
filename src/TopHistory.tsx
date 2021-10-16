@@ -65,11 +65,11 @@ export class TopHistory extends React.Component<
                         onMouseOut={this.handleTdHover.bind(this, e, false)}
                       >
                         <span className={"nickname-span"}>
-                          {/*<a*/}
-                          {/*  href={`/${eventId}/userHistory/${e.earthUserId}/${characterId}`}*/}
-                          {/*>*/}
-                          {e.nickname}
-                          {/*</a>*/}
+                          <a
+                            href={`/${eventId}/userHistory/${e.earthUserId}/${characterId}`}
+                          >
+                            {e.nickname}
+                          </a>
                         </span>
                         {/*<br />*/}
                         <span className={"score-span"}>{e.score}</span>

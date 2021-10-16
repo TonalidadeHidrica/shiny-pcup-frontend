@@ -44,8 +44,8 @@ export class UserHistoryRoot extends React.Component<
     const response = await fetch(
       `${apiEndpoint}/v1/${eventId}/getUserHistory/${earthUserId}/${characterId}`
     );
-    const { body: history } = await response.json();
-    this.setState({ history });
+    const { body } = await response.json();
+    this.setState({ history: body[earthUserId] });
   }
 
   render() {
