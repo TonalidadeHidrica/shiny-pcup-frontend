@@ -46,7 +46,7 @@ export const UserHistoryRoot: React.FC<RouteComponentProps<RouteProps>> = (
       const { body } = await response.json();
       setHistory(body[earthUserId]);
     })();
-  });
+  }, []);
 
   const nickname = (history || []).slice(-1)[0]?.nickname || "???";
   const scoreData = history?.map((e) => [+new Date(e.retrieve_start), e.score]);
