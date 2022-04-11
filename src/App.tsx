@@ -14,8 +14,9 @@ class RootPage extends React.Component {
             2.5周年Pカップ(どっかにデータは残ってると思うんですが今は復元してません)
           </li>
           <li>3周年Pカップ(どっかにデーry)</li>
+          <li>3.5周年Pカップ(どry)</li>
           <li>
-            <a href="/40007/">3.5周年Pカップ</a>
+            <a href="/40008/">4周年Pカップ</a>
           </li>
         </ul>
       </div>
